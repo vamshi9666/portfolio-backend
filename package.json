@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "nodemon ./bin/dev",
-    "start":"node ./bin/prod"
+    "start": "node ./bin/dev"
   },
   "keywords": [
     "REST",
@@ -19,6 +19,7 @@
     "babel-cli": "^6.26.0",
     "babel-preset-stage-2": "^6.24.1",
     "babel-register": "^6.26.0",
+    "body-parser": "^1.18.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "mongoose": "^5.2.12",
