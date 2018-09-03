@@ -42,3 +42,22 @@ exports.add_blog = (req,res,next) => {
       })
     })
 }
+
+exports.delete_blog = (req,res,next) => {
+  const id = req.params.id;
+  Blog.remove({_id :id})
+      .then(result => {
+        console.log(result);
+        res.status(200).json({
+          message: " Blog deleted successfully !",
+          data: result
+        })
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(400).json({
+          message: " Error in deleting Blogs ",
+          error:err
+        })
+      })
+}
