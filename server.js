@@ -31,9 +31,7 @@ con.on('open', function(args) {
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
 //@route blogController
-
 app.use('/blog', blogRoutes)
 
 
