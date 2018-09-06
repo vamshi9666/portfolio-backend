@@ -4,13 +4,28 @@ const bodyParser = require('body-parser')
 import express from 'express'
 import mongoose from 'mongoose'
 import blogRoutes from './routes/blog'
+import redis from 'redis'
 
 //variables
 const dotenv = require('dotenv').config()
 const app = express()
-
 const port = 5000;
 
+const  redisClient = redis.createClient({
+  host:'redis'
+});
+
+redisClient.on("error", function (err) {
+    console.log("[Redis] : Error  in connecting to redis server" + err);
+});
+
+redisClient.on("ready", (err)=> {
+  console.log("[Redis] : Redis is ready to connect ");
+})
+
+redisClient.on("connect", ()=> {
+  console.log("[Redis] : Connected to redis databse");
+})
 //initializations
 mongoose.connect(process.env.DB_URL,{ useNewUrlParser: true })
 const con = mongoose.connection;
