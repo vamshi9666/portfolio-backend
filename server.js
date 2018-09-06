@@ -1,5 +1,3 @@
-
-
 //imports
 import http from 'http'
 const bodyParser = require('body-parser')
@@ -10,6 +8,7 @@ import blogRoutes from './routes/blog'
 //variables
 const dotenv = require('dotenv').config()
 const app = express()
+
 const port = 5000;
 
 //initializations
@@ -23,10 +22,10 @@ con.on('error',(err)=>{
     err:err
   })
 })
+
 con.on('open', function(args) {
   console.log("\n        ----connection to database opened----\n \n ");
 });
-console.log('test');
 //middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

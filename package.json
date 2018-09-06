@@ -25,7 +25,8 @@
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.12",
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "redis": "^2.8.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

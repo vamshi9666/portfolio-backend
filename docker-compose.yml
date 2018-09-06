@@ -4,6 +4,9 @@ services:
     build: .
     ports:
      - "5000:5000"
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
   redis:
     image: "redis:alpine"
     ports:
