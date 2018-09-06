@@ -26,7 +26,7 @@ con.on('error',(err)=>{
 con.on('open', function(args) {
   console.log("\n        ----connection to database opened----\n \n ");
 });
-
+console.log('test');
 //middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
