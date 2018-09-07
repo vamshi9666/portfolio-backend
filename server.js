@@ -1,14 +1,14 @@
 //imports
-import http from 'http'
+const http = require('http')
 const bodyParser = require('body-parser')
-import express from 'express'
-import mongoose from 'mongoose'
-import blogRoutes from './routes/blog'
-import redis from 'redis'
-import bcrypt from 'bcrypt';
-import * as jwt from 'jsonwebtoken'
+const express = require('express')
+const mongoose = require('mongoose');
+const blogRoutes = require('./routes/blog')
+const redis = require('redis');
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
-import { User } from './models/user'
+const User = require('./models/user')
 //variables
 const dotenv = require('dotenv').config()
 const app = express()
@@ -24,7 +24,7 @@ redisClient.on("error", function (err) {
 });
 
 redisClient.on("ready", (err)=> {
-  console.log("[Redis] : Redis is ready to connect ");
+  console.log("[Redis] : Redis is ready to be implemented ");
 })
 
 redisClient.on("connect", ()=> {
@@ -66,7 +66,7 @@ app.post('/signup', (req,res,next) => {
           .then(result => {
             console.log(`Error in creating new user Stage 2 `)
             res.status(202).json({
-              message:`Error in creating new user Stage 2 `,
+              message:`Succesfully created new user  `,
               data:result
             })
           })
