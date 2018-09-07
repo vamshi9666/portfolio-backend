@@ -7,31 +7,36 @@ const blogRoutes = require('./routes/blog')
 const redis = require('redis');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-
 const User = require('./models/user')
+
+
 //variables
 const dotenv = require('dotenv').config()
 const app = express()
 const port = 5000;
+const session = require('express-session')
 
+//auth
+const authChecker = require('./middlewares/auth')
 
 const  redisClient = redis.createClient({
   host:'redis'
 });
 
 redisClient.on("error", function (err) {
-    console.log("[Redis] : Error  in connecting to redis server" + err);
+    console.log(" [Redis] : Error  in connecting to redis server" + err);
 });
 
 redisClient.on("ready", (err)=> {
-  console.log("[Redis] : Redis is ready to be implemented ");
+  console.log(" [Redis] : Redis is ready to be implemented ");
 })
 
 redisClient.on("connect", ()=> {
-  console.log("[Redis] : Connected to redis databse");
+  console.log(" [Redis] : Connected to redis databse");
 })
 //initializations
 mongoose.connect(process.env.DB_URL,{ useNewUrlParser: true })
+
 const con = mongoose.connection;
 
 con.on('error',(err)=>{
@@ -43,6 +48,7 @@ con.on('open', function(args) {
   console.log("\n        ----connection to database opened----\n \n ");
 });
 //middlewares
+app.use(session({secret: process.env.SESSON_SECRET}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -64,7 +70,7 @@ app.post('/signup', (req,res,next) => {
       })
       user.save()
           .then(result => {
-            console.log(`Error in creating new user Stage 2 `)
+            console.log(`user created successfully  `)
             res.status(202).json({
               message:`Succesfully created new user  `,
               data:result
@@ -86,7 +92,7 @@ app.post('/login', (req, res, next) => {
       name: req.body.name
     })
     .then(result => {
-      console.log(result)
+      console.log(result[0])
       if (result.length < 1) {
         return res.status(301).json({
           message: "Error in authentication"
@@ -102,7 +108,7 @@ app.post('/login', (req, res, next) => {
         }
         if (doc) {
           const token = jwt.sign({
-            userName: req.body.username
+            name: result[0].name
           }, process.env.JWT_KEY, {
             expiresIn: "1h"
           })
@@ -123,7 +129,7 @@ app.post('/login', (req, res, next) => {
       })
     })
 });
-app.use('/blog', blogRoutes)
+app.use('/blog',authChecker, blogRoutes)
 
 
 app.listen(port, () => console.log(`server listening on port ${port}`))
