@@ -1,5 +1,5 @@
 //imports
-const http = require('http')
+const http = require('http2')
 const bodyParser = require('body-parser')
 const express = require('express')
 const mongoose = require('mongoose');
@@ -53,6 +53,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 //@route blogController
+app.on('stream', (stream, headers) => {
+  // stream is a Duplex
+  stream.respond({
+    'content-type': 'text/html',
+    ':status': 200
+  });
+  stream.end('<h1>Hello World</h1>');
+});
 
 app.post('/signup', (req,res,next) => {
   bcrypt.hash(req.body.password, 10 , (err,hash) => {
@@ -129,7 +137,7 @@ app.post('/login', (req, res, next) => {
       })
     })
 });
-app.use('/blog',authChecker, blogRoutes)
 
+app.use('/blog',authChecker, blogRoutes)
 
 app.listen(port, () => console.log(`server listening on port ${port}`))

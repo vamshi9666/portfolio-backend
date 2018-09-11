@@ -13,7 +13,7 @@ const authChecker = (req,res,next) => {
   }
   catch(error) {
     console.log(`[JsonWebToken] : ${error}`);
-    res.end(` [JsonWebToken] : Error in auth !`)
+    res.end(` [JsonWebToken] : Error in auth ! \n [JsonWebToken] : ${error}`)
   }
 }
 
